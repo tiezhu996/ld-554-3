@@ -96,3 +96,25 @@ CREATE TABLE IF NOT EXISTS audit_logs (
   timestamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_audit_operator FOREIGN KEY (operator_id) REFERENCES users(id) ON DELETE SET NULL
 );
+
+CREATE TABLE IF NOT EXISTS shift_swap_requests (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  requester_shift_id INT NOT NULL,
+  target_shift_id INT NOT NULL,
+  requester_employee_id INT NOT NULL,
+  target_employee_id INT NOT NULL,
+  store_id INT NOT NULL,
+  reason TEXT NOT NULL,
+  status ENUM('PENDING_PEER','PEER_APPROVED','PEER_REJECTED','MANAGER_APPROVED','MANAGER_REJECTED','CANCELLED') NOT NULL DEFAULT 'PENDING_PEER',
+  peer_approved_at DATETIME NULL,
+  manager_approved_at DATETIME NULL,
+  peer_reject_reason TEXT NULL,
+  manager_reject_reason TEXT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_swap_requester_shift FOREIGN KEY (requester_shift_id) REFERENCES shifts(id) ON DELETE CASCADE,
+  CONSTRAINT fk_swap_target_shift FOREIGN KEY (target_shift_id) REFERENCES shifts(id) ON DELETE CASCADE,
+  CONSTRAINT fk_swap_requester_employee FOREIGN KEY (requester_employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+  CONSTRAINT fk_swap_target_employee FOREIGN KEY (target_employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+  CONSTRAINT fk_swap_store FOREIGN KEY (store_id) REFERENCES stores(id) ON DELETE CASCADE
+);

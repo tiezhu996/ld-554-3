@@ -4,6 +4,7 @@ import { Shift } from './shift.model.js';
 import { Transaction } from './transaction.model.js';
 import { User } from './user.model.js';
 import { AuditLog } from './audit-log.model.js';
+import { ShiftSwapRequest } from './shift-swap-request.model.js';
 
 Store.hasMany(Employee, { foreignKey: 'storeId' });
 Employee.belongsTo(Store, { foreignKey: 'storeId' });
@@ -25,4 +26,11 @@ User.belongsTo(Employee, { foreignKey: 'employeeId' });
 User.belongsTo(Store, { foreignKey: 'storeId' });
 AuditLog.belongsTo(User, { foreignKey: 'operatorId' });
 
-export { Employee, Store, Shift, Transaction, User, AuditLog };
+ShiftSwapRequest.belongsTo(Shift, { as: 'requesterShift', foreignKey: 'requesterShiftId' });
+ShiftSwapRequest.belongsTo(Shift, { as: 'targetShift', foreignKey: 'targetShiftId' });
+ShiftSwapRequest.belongsTo(Employee, { as: 'requesterEmployee', foreignKey: 'requesterEmployeeId' });
+ShiftSwapRequest.belongsTo(Employee, { as: 'targetEmployee', foreignKey: 'targetEmployeeId' });
+ShiftSwapRequest.belongsTo(Store, { foreignKey: 'storeId' });
+Store.hasMany(ShiftSwapRequest, { foreignKey: 'storeId' });
+
+export { Employee, Store, Shift, Transaction, User, AuditLog, ShiftSwapRequest };

@@ -59,3 +59,23 @@ export const UserRole = {
 } as const;
 
 export type UserRoleValue = (typeof UserRole)[keyof typeof UserRole];
+
+export const ShiftSwapStatus = {
+  PENDING_PEER: 'PENDING_PEER',
+  PEER_APPROVED: 'PEER_APPROVED',
+  PEER_REJECTED: 'PEER_REJECTED',
+  MANAGER_APPROVED: 'MANAGER_APPROVED',
+  MANAGER_REJECTED: 'MANAGER_REJECTED',
+  CANCELLED: 'CANCELLED'
+} as const;
+
+export const ShiftSwapStatusLabel = {
+  [ShiftSwapStatus.PENDING_PEER]: '待对方确认',
+  [ShiftSwapStatus.PEER_APPROVED]: '对方已同意，待店长审批',
+  [ShiftSwapStatus.PEER_REJECTED]: '对方已拒绝',
+  [ShiftSwapStatus.MANAGER_APPROVED]: '店长已批准，换班完成',
+  [ShiftSwapStatus.MANAGER_REJECTED]: '店长已驳回',
+  [ShiftSwapStatus.CANCELLED]: '已取消'
+} as const;
+
+export type ShiftSwapStatusValue = (typeof ShiftSwapStatus)[keyof typeof ShiftSwapStatus];
